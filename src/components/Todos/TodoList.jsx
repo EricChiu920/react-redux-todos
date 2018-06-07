@@ -10,6 +10,11 @@ class TodoList extends Component {
     task: '',
   }
 
+  onEnterSubmit = (e) => {
+    if (e.keyCode === 13 || e.which === 13) {
+      this.submitTask(e);
+    }
+  }
   handleChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value,
@@ -17,7 +22,6 @@ class TodoList extends Component {
   }
   submitTask = (e) => {
     e.preventDefault();
-    console.log('submit');
     this.addTask(this.state.task);
     e.target.reset();
   }
@@ -26,16 +30,16 @@ class TodoList extends Component {
   };
 
   render() {
-    let todos = this.props.todos.map((task, i) =>
+    const todos = this.props.todos.todos.map((task, i) =>
       <Todo key={i} task={task} />);
 
     return (
       <React.Fragment>
-        <form onSubmit={this.submitTask}>
+        <form onSubmit={this.submitTask} >
           <label htmlFor="task">
+            Task <input onChange={this.handleChange} type="text" name="task" id="task" />
           </label>
-          Task <input onChange={this.handleChange} type="text" name="task" id="task" />
-          <button type="submit">Submit</button>
+          <button onKeyPress={this.onEnterSubmit} type="submit">Submit</button>
         </form>
         <ul>
           {todos}
@@ -50,7 +54,8 @@ TodoList.defaultProps = {
 };
 
 TodoList.propTypes = {
-  todos: PropTypes.arrayOf(PropTypes.string),
+  todos: PropTypes.objectOf(PropTypes.array),
+  addTask: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = reduxState => ({

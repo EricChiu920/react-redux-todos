@@ -7,7 +7,7 @@ import store from '../../configureStore';
 
 it('renders without crashing', () => {
   const div = document.createElement('div');
-  const todos = [{todo: 'eat', id: 0}];
+  const todos = ['eat'];
   ReactDOM.render(
     <Provider store={store}>
       <TodoList todos={todos}/>

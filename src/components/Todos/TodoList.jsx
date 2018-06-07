@@ -2,20 +2,45 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Todo from './Todo';
+import { addTodo } from '../../redux/actions/todoActions';
+
 
 class TodoList extends Component {
   state = {
-    todos: ['Eat', 'Sleep', 'Go Home'],
+    task: '',
+  }
+
+  handleChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  }
+  submitTask = (e) => {
+    e.preventDefault();
+    console.log('submit');
+    this.addTask(this.state.task);
+    e.target.reset();
+  }
+  addTask = (task) => {
+    this.props.addTask(task);
   };
 
   render() {
-    const todos = this.state.todos.map((task, i) =>
+    let todos = this.props.todos.map((task, i) =>
       <Todo key={i} task={task} />);
 
     return (
-      <ul>
-        {todos}
-      </ul>
+      <React.Fragment>
+        <form onSubmit={this.submitTask}>
+          <label htmlFor="task">
+          </label>
+          Task <input onChange={this.handleChange} type="text" name="task" id="task" />
+          <button type="submit">Submit</button>
+        </form>
+        <ul>
+          {todos}
+        </ul>
+      </React.Fragment>
     );
   }
 }
@@ -25,13 +50,15 @@ TodoList.defaultProps = {
 };
 
 TodoList.propTypes = {
-  todos: PropTypes.objectOf(PropTypes.object),
+  todos: PropTypes.arrayOf(PropTypes.string),
 };
 
-function mapStateToProps(reduxState) {
-  return {
-    todos: reduxState.todos,
-  };
-}
+const mapStateToProps = reduxState => ({
+  todos: reduxState.todos,
+});
 
-export default connect(mapStateToProps)(TodoList);
+const mapDispatchToProps = {
+  addTask: addTodo,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TodoList);

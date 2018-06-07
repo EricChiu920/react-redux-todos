@@ -1,9 +1,9 @@
 import { ADD_TODO, REMOVE_TODO } from './actionTypes';
 
-export function addTodo(task) {
+export function addTodo(todo) {
   return {
     type: ADD_TODO,
-    task,
+    todo,
   };
 }
 

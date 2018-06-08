@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Todo from './Todo';
-import { addTodo } from '../../redux/actions/todoActions';
+import { addTodo, removeTodo } from '../../redux/actions/todoActions';
 
 
 class TodoList extends Component {
@@ -28,10 +28,13 @@ class TodoList extends Component {
   addTask = (task) => {
     this.props.addTask(task);
   };
+  removeTask = (id) => {
+    this.props.removeTask(id);
+  }
 
   render() {
     const todos = this.props.todos.todos.map((task, i) =>
-      <Todo key={i} task={task} />);
+      <Todo removeTask={() => this.removeTask(i)} key={i} task={task} />);
 
     return (
       <React.Fragment>
@@ -56,6 +59,7 @@ TodoList.defaultProps = {
 TodoList.propTypes = {
   todos: PropTypes.objectOf(PropTypes.array),
   addTask: PropTypes.func.isRequired,
+  removeTask: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = reduxState => ({
@@ -64,6 +68,7 @@ const mapStateToProps = reduxState => ({
 
 const mapDispatchToProps = {
   addTask: addTodo,
+  removeTask: removeTodo,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TodoList);

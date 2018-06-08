@@ -7,14 +7,16 @@ const initialState = {
 function todoReducer(state = initialState, action) {
   const newState = { ...state };
   switch (action.type) {
-    case ADD_TODO:
+    case ADD_TODO: {
       return {
         ...newState,
         todos: [...newState.todos, action.todo],
       };
-    case REMOVE_TODO:
-      let todos = state.todos.filter(val => val.id !== action.id);
-      return { ...state, todos };
+    }
+    case REMOVE_TODO: {
+      const todos = newState.todos.filter(val => val !== newState.todos[action.id]);
+      return { todos };
+    }
     default:
       return state;
   }

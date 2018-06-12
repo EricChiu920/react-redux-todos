@@ -24,20 +24,20 @@ class TodoList extends Component {
     e.preventDefault();
     const { task } = this.state;
     if (!this.props.todos.todos.includes(task)) {
-      this.addTask(task);
+      this.addTodo(task);
     }
     e.target.reset();
   }
-  addTask = (task) => {
-    this.props.addTask(task);
+  addTodo = (task) => {
+    this.props.addTodo(task);
   };
-  removeTask = (id) => {
-    this.props.removeTask(id);
+  removeTodo = (id) => {
+    this.props.removeTodo(id);
   }
 
   render() {
     const todos = this.props.todos.todos.map((task, i) =>
-      <Todo removeTask={() => this.removeTask(i)} key={task} task={task} />);
+      <Todo removeTodo={() => this.removeTodo(i)} key={task} task={task} />);
 
     return (
       <React.Fragment>
@@ -61,8 +61,8 @@ TodoList.defaultProps = {
 
 TodoList.propTypes = {
   todos: PropTypes.objectOf(PropTypes.array),
-  addTask: PropTypes.func.isRequired,
-  removeTask: PropTypes.func.isRequired,
+  addTodo: PropTypes.func.isRequired,
+  removeTodo: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = reduxState => ({
@@ -70,8 +70,8 @@ const mapStateToProps = reduxState => ({
 });
 
 const mapDispatchToProps = {
-  addTask: addTodo,
-  removeTask: removeTodo,
+  addTodo,
+  removeTodo,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TodoList);

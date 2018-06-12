@@ -13,7 +13,7 @@ function todoReducer(state = initialState, action) {
       };
     }
     case REMOVE_TODO: {
-      const todos = state.todos.filter(val => val !== state.todos[action.id]);
+      const todos = state.todos.filter(val => val !== action.id);
       return { todos };
     }
     default:

@@ -1,20 +1,19 @@
 import { ADD_TODO, REMOVE_TODO } from '../actions/actionTypes';
 
 const initialState = {
-  todos: [],
+  todos: ['Add Todos'],
 };
 
 function todoReducer(state = initialState, action) {
-  const newState = { ...state };
   switch (action.type) {
     case ADD_TODO: {
       return {
-        ...newState,
-        todos: [...newState.todos, action.todo],
+        ...state,
+        todos: [...state.todos, action.todo],
       };
     }
     case REMOVE_TODO: {
-      const todos = newState.todos.filter(val => val !== newState.todos[action.id]);
+      const todos = state.todos.filter(val => val !== state.todos[action.id]);
       return { todos };
     }
     default:

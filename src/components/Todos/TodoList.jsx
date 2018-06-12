@@ -22,7 +22,10 @@ class TodoList extends Component {
   }
   submitTask = (e) => {
     e.preventDefault();
-    this.addTask(this.state.task);
+    const { task } = this.state;
+    if (!this.props.todos.todos.includes(task)) {
+      this.addTask(task);
+    }
     e.target.reset();
   }
   addTask = (task) => {
@@ -34,7 +37,7 @@ class TodoList extends Component {
 
   render() {
     const todos = this.props.todos.todos.map((task, i) =>
-      <Todo removeTask={() => this.removeTask(i)} key={i} task={task} />);
+      <Todo removeTask={() => this.removeTask(i)} key={task} task={task} />);
 
     return (
       <React.Fragment>

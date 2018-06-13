@@ -3,6 +3,7 @@ const cors = require('cors');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const todoRoutes = require('./routes/todos');
+require('dotenv').config();
 
 const app = express();
 const port = 3001;

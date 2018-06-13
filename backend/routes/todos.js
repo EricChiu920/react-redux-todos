@@ -1,13 +1,24 @@
-const mongoose = require('mongoose');
+const express = require('express');
 
-mongoose.connect(`mongodb://${process.env.dbUser}:${process.env.dbPass}@ds241578.mlab.com:41578/todos_practice`);
-mongoose.set('debug', true);
-mongoose.Promise = Promise;
+const router = express.Router();
+const Todo = require('../models/todo');
 
-const todoSchema = new mongoose.Schema({
-  task: String,
+router.get('/', (req, res, next) => {
+  Todo.find({})
+    .then(todos => res.send(todos))
+    .catch(err => next(err));
 });
 
-const Todo = mongoose.model('Todo', todoSchema);
+router.post('/', (req, res, next) => {
+  Todo.create(req.body)
+    .then(todo => res.status(201).send(todo))
+    .catch(err => next(err));
+});
 
-module.exports = Todo;
+router.delete('/:id', (req, res, next) => {
+  Todo.findByIdAndRemove(req.params.id)
+    .then(todo => res.send(todo))
+    .catch(err => next(err));
+});
+
+module.exports = router;

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class NewTodoForm extends Component {
   state = {
@@ -19,7 +20,6 @@ class NewTodoForm extends Component {
     e.preventDefault();
     const { task } = this.state;
     this.props.submitTask(task);
-    this.props.history.push('/todos');
     e.target.reset();
   }
 
@@ -34,5 +34,12 @@ class NewTodoForm extends Component {
     );
   }
 }
+
+NewTodoForm.defaultProps = {
+};
+
+NewTodoForm.propTypes = {
+  submitTask: PropTypes.func.isRequired,
+};
 
 export default NewTodoForm;

@@ -3,8 +3,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Route } from 'react-router-dom';
 import { withRouter } from 'react-router';
+import { Loader } from 'semantic-ui-react';
 import Todo from './Todo';
 import { addTodo, removeTodo, getTodos } from '../../redux/actions/todoActions';
 import NewTodoForm from './NewTodoForm';
@@ -18,6 +18,10 @@ class TodoList extends Component {
     this.props.addTodo(val);
   };
 
+  renderLoader = () => (
+    <Loader active inline="centered" >Loading</Loader>
+  );
+
   render() {
     const todos = this.props.todos.todos.map(task => (
       <Todo
@@ -30,16 +34,17 @@ class TodoList extends Component {
 
     return (
       <React.Fragment>
-        <Route path="/todos/new" component={props => <NewTodoForm {...props} submitTask={this.handleAdd} />} />
-        <Route exact path="/todos" component={() => <React.Fragment><ul>{todos}</ul></React.Fragment>} />
+        <NewTodoForm submitTask={this.handleAdd} />
+        {this.props.loaded ? <ul>{todos}</ul> : this.renderLoader()}
+        {/* <ul>{todos}</ul> */}
       </React.Fragment>
     );
   }
 }
 
 TodoList.defaultProps = {
-  todos: [],
-  history: [],
+  todos: null,
+  loaded: false,
 };
 
 TodoList.propTypes = {
@@ -49,12 +54,11 @@ TodoList.propTypes = {
   getTodos: PropTypes.func.isRequired,
   addTodo: PropTypes.func.isRequired,
   removeTodo: PropTypes.func.isRequired,
-  history: PropTypes.shape({
-    length: PropTypes.number,
-  }),
+  loaded: PropTypes.bool,
 };
 
 const mapStateToProps = reduxState => ({
+  loaded: reduxState.todos.loaded,
   todos: reduxState.todos,
 });
 

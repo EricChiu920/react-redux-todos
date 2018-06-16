@@ -1,17 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Todo = ({ task, removeTodo }) => (
-  <li>{task}<button onClick={removeTodo}>X</button></li>
+const Todo = ({ id, task, removeTodo }) => (
+  <li key={id}>{task}<button onClick={removeTodo}> X</button></li>
 );
 
 Todo.defaultProps = {
-  task: 'All done',
 };
 
 Todo.propTypes = {
-  task: PropTypes.string,
+  task: PropTypes.string.isRequired,
   removeTodo: PropTypes.func.isRequired,
+  id: PropTypes.string.isRequired,
 };
 
 export default Todo;

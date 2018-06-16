@@ -1,20 +1,32 @@
+/* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
+
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Route } from 'react-router-dom';
 import { withRouter } from 'react-router';
 import Todo from './Todo';
-import { addTodo, removeTodo } from '../../redux/actions/todoActions';
+import { addTodo, removeTodo, getTodos } from '../../redux/actions/todoActions';
 import NewTodoForm from './NewTodoForm';
 
 class TodoList extends Component {
+  componentDidMount() {
+    this.props.getTodos();
+  }
+
   handleAdd = (val) => {
     this.props.addTodo(val);
   };
 
   render() {
-    const todos = this.props.todos.todos.map(task =>
-      <Todo removeTodo={() => this.props.removeTodo(task)} key={task} task={task} />);
+    const todos = this.props.todos.todos.map(task => (
+      <Todo
+        removeTodo={() => this.props.removeTodo(task._id)}
+        id={task._id}
+        key={task._id}
+        task={task.task}
+      />
+    ));
 
     return (
       <React.Fragment>
@@ -31,14 +43,19 @@ TodoList.defaultProps = {
 };
 
 TodoList.propTypes = {
-  todos: PropTypes.objectOf(PropTypes.array),
+  todos: PropTypes.shape({
+    todos: PropTypes.array,
+  }),
+  getTodos: PropTypes.func.isRequired,
   addTodo: PropTypes.func.isRequired,
   removeTodo: PropTypes.func.isRequired,
-  history: PropTypes.arrayOf(PropTypes.string),
+  history: PropTypes.shape({
+    length: PropTypes.number,
+  }),
 };
 
 const mapStateToProps = reduxState => ({
   todos: reduxState.todos,
 });
 
-export default withRouter(connect(mapStateToProps, { addTodo, removeTodo })(TodoList));
+export default withRouter(connect(mapStateToProps, { addTodo, removeTodo, getTodos })(TodoList));

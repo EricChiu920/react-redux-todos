@@ -1,4 +1,4 @@
-import { ADD_TODO, REMOVE_TODO, GET_TODOS } from './actionTypes';
+import { ADD_TODO, REMOVE_TODO, GET_TODOS, GET_LOADED } from './actionTypes';
 
 function handleTodos(data) {
   return {
@@ -21,6 +21,13 @@ function handleRemove(id) {
   };
 }
 
+function handleLoad() {
+  return {
+    type: GET_LOADED,
+    loaded: true,
+  };
+}
+
 const apiUrl = 'http://localhost:3001';
 
 export function getTodos() {
@@ -28,6 +35,7 @@ export function getTodos() {
     fetch(`${apiUrl}/api/todos`)
       .then(res => res.json())
       .then(data => dispatch(handleTodos(data)))
+      .then(data => dispatch(handleLoad()))
       .catch(err => console.log('Something went wrong!!', err));
 }
 

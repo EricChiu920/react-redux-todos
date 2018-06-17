@@ -9,6 +9,14 @@ import Todo from './Todo';
 import { addTodo, removeTodo, getTodos } from '../../redux/actions/todoActions';
 import NewTodoForm from './NewTodoForm';
 
+const todoStyle = {
+  display: 'flex',
+  flexDirection: 'column',
+  listStyle: 'none',
+  // alignContent: 'flex-start',
+  justifyContent: 'center',
+};
+
 class TodoList extends Component {
   componentDidMount() {
     this.props.getTodos();
@@ -35,7 +43,7 @@ class TodoList extends Component {
     return (
       <React.Fragment>
         <NewTodoForm submitTask={this.handleAdd} />
-        {this.props.loaded ? <ul>{todos}</ul> : this.renderLoader()}
+        {this.props.loaded ? <ul style={todoStyle} >{todos}</ul> : this.renderLoader()}
         {/* <ul>{todos}</ul> */}
       </React.Fragment>
     );

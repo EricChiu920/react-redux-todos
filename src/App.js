@@ -6,7 +6,7 @@ import RoutePaths from './routePaths/RoutePaths';
 const App = () => (
   <React.StrictMode>
     <div className="App">
-      <h1>See our Todos!</h1>
+      <h1 className="todo-title" >See our Todos!</h1>
       {/* <p><Link to="/todos/new" href="/todos/new" >Add some todos!</Link></p> */}
       <RoutePaths />
     </div>

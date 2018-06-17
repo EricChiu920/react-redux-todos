@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Input, Button } from 'semantic-ui-react';
 
 class NewTodoForm extends Component {
   state = {
@@ -26,10 +27,8 @@ class NewTodoForm extends Component {
   render() {
     return (
       <form onSubmit={this.submitTask} >
-        <label htmlFor="task">
-          Task <input onChange={this.handleChange} type="text" name="task" id="task" />
-        </label>
-        <button onKeyPress={this.onEnterSubmit} type="submit">Submit</button>
+        <Input onChange={this.handleChange} name="task" placeholder="Todo" focus />
+        <Button onKeyPress={this.onEnterSubmit} primary >Submit</Button>
       </form>
     );
   }

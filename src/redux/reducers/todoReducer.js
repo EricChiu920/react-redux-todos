@@ -3,6 +3,7 @@ import { ADD_TODO, REMOVE_TODO, GET_TODOS, GET_LOADED } from '../actions/actionT
 
 const initialState = {
   todos: ['Add Todos!'],
+  loaded: false,
 };
 
 function todoReducer(state = initialState, action) {
@@ -18,10 +19,10 @@ function todoReducer(state = initialState, action) {
     }
     case REMOVE_TODO: {
       const todos = state.todos.filter(val => val._id !== action.id);
-      return { todos };
+      return { todos, loaded: state.loaded };
     }
     case GET_LOADED: {
-      return { ...state, loaded: action.loaded }
+      return { ...state, loaded: action.loaded };
     }
     default:
       return state;
